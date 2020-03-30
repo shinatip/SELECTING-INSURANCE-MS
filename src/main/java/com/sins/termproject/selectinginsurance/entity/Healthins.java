@@ -1,32 +1,23 @@
-package com.sample;
+package com.sins.termproject.selectinginsurance.entity;
 
 
 public class Healthins {
 
-  private String plancode;
-  private String name;
+  private String subplan;
   private String icu;
   private String room;
   private String operation;
   private String ambulance;
   private String visit;
+  private String baseheal;
 
 
-  public String getPlancode() {
-    return plancode;
+  public String getSubplan() {
+    return subplan;
   }
 
-  public void setPlancode(String plancode) {
-    this.plancode = plancode;
-  }
-
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  public void setSubplan(String subplan) {
+    this.subplan = subplan;
   }
 
 
@@ -72,6 +63,15 @@ public class Healthins {
 
   public void setVisit(String visit) {
     this.visit = visit;
+  }
+
+
+  public String getBaseheal() {
+    return baseheal;
+  }
+
+  public void setBaseheal(String baseheal) {
+    this.baseheal = baseheal;
   }
 
 }

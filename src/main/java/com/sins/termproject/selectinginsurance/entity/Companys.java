@@ -1,5 +1,7 @@
 package com.sins.termproject.selectinginsurance.entity;
 
+import javax.persistence.Entity;
+
 
 public class Companys {
 
@@ -9,6 +11,8 @@ public class Companys {
   private String companyMobile;
   private String companyEmail;
 
+  public Companys() {
+  }
 
   public String getComid() {
     return comid;
@@ -54,4 +58,22 @@ public class Companys {
     this.companyEmail = companyEmail;
   }
 
+  public Companys(String comid, String companyEng, String companyTh, String companyMobile, String companyEmail) {
+    this.comid = comid;
+    this.companyEng = companyEng;
+    this.companyTh = companyTh;
+    this.companyMobile = companyMobile;
+    this.companyEmail = companyEmail;
+  }
+
+  @Override
+  public String toString() {
+    return "Companys{" +
+            "comid='" + comid + '\'' +
+            ", companyEng='" + companyEng + '\'' +
+            ", companyTh='" + companyTh + '\'' +
+            ", companyMobile='" + companyMobile + '\'' +
+            ", companyEmail='" + companyEmail + '\'' +
+            '}';
+  }
 }
