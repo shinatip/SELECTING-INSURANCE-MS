@@ -1,19 +1,21 @@
 package com.sins.termproject.selectinginsurance.request;
 
-import javax.validation.constraints.Size;
 
+import java.math.BigDecimal;
 
 public class SearchRequest {
-    
-    
-    @Size(max=10)
+
+
+
     protected String gender;
+
+    protected String dob;
 
     protected Integer age;
     
     protected String planType;
 
-    protected String afford;
+    protected BigDecimal afford;
 
     /**
     * Default constructor
@@ -35,8 +37,15 @@ public class SearchRequest {
     */
     public void setGender(String gender){
          this.gender=gender;
-    } 
+    }
 
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
 
     public Integer getAge(){
         return age;
@@ -65,14 +74,14 @@ public class SearchRequest {
          this.planType = planType;
     }
 
-    public String getAfford(){
+    public BigDecimal getAfford(){
         return afford;
     }
     /**
      * Setter for typeIns
      * Character
      */
-    public void setAfford(String afford){
+    public void setAfford(BigDecimal afford){
         this.afford = afford;
     }
 
