@@ -4,8 +4,7 @@ import com.sins.termproject.selectinginsurance.impl.SelectedImpl;
 import com.sins.termproject.selectinginsurance.impl.TestImpl;
 import com.sins.termproject.selectinginsurance.request.SearchRequest;
 import com.sins.termproject.selectinginsurance.request.addSvePremium;
-import com.sins.termproject.selectinginsurance.response.HealthResBody;
-import org.hibernate.annotations.Parameter;
+import com.sins.termproject.selectinginsurance.response.reportResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ public class SelectingInsController {
     @PostMapping(value = "/find")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public HealthResBody findInsurance(
+    public Object findInsurance(
             @RequestHeader( value = "requestUID") String requestUID,
             @Valid @RequestBody (required = true) SearchRequest request){
 
@@ -41,6 +40,14 @@ public class SelectingInsController {
             @Valid @RequestBody (required = true) addSvePremium request){
         selectedImpl.addSvePremium(request);
 
+    }
+    @GetMapping(value = "/getreport")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public reportResponse getreport(
+            @RequestHeader( value = "requestUID") String requestUID){
+        reportResponse res = selectedImpl.getReportOneMouth();
+        return res;
     }
 
 

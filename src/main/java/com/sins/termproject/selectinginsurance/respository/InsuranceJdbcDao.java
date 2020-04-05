@@ -4,6 +4,8 @@ import com.sins.termproject.selectinginsurance.entity.Companys;
 import com.sins.termproject.selectinginsurance.request.addSvePremium;
 import com.sins.termproject.selectinginsurance.response.HealthPlanResponse;
 import com.sins.termproject.selectinginsurance.request.SearchRequest;
+import com.sins.termproject.selectinginsurance.response.SavingResponse;
+import com.sins.termproject.selectinginsurance.response.reportItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,8 +56,28 @@ public class InsuranceJdbcDao {
         Object param[] = {req.getAge(), req.getGender(), req.getAfford()};
         List<HealthPlanResponse> helList = (List<HealthPlanResponse>) jdbcTemplate.query( sqlstatement, param,
                 new BeanPropertyRowMapper<HealthPlanResponse>(HealthPlanResponse.class));
-
     return helList;
+    }
+
+    public List<SavingResponse> findSavinPlan(SearchRequest req) {
+        String sql = "select c.comid,c.company_eng, c.company_th, c.company_mobile , n.planname , v.intrate,\n" +
+                "        v.finalint, v.ineach, p.gender, p.age, p.pmprice \n" +
+                "        from companys c \n" +
+                "        inner join insuranceplans n \n" +
+                "        on c.comid = n.comid \n" +
+                "        inner join subplans s \n" +
+                "        on s.plancode = n.plancode \n" +
+                "        inner join savingins v \n" +
+                "        on v.plancode = s.plancode \n" +
+                "        inner join premium p \n" +
+                "        on p.precode = s.precode \n" +
+                "        where p.age = ? \n" +
+                "        and p.gender = ? \n" +
+                "        and p.pmprice < ? ";
+        Object param[] = { req.getAge(), req.getGender(), req.getAfford()};
+        List<SavingResponse> savList = (List<SavingResponse>) jdbcTemplate.query( sql, param,
+                new BeanPropertyRowMapper<SavingResponse>(SavingResponse.class));
+        return savList;
     }
 
     public void insertSearch(String transaction, SearchRequest req) {
@@ -76,7 +98,6 @@ public class InsuranceJdbcDao {
     public void insertSvePremium(addSvePremium req) {
         int start = req.getMin();
         int end = req.getMax();
-
         for (int i = start; i <= end ; i++) {
             String sql = "insert into premium \n" +
                     "values ( ?,?,?,?,?)";
@@ -84,5 +105,14 @@ public class InsuranceJdbcDao {
             jdbcTemplate.update(sql, param);
         }
 
+    }
+
+
+    public List<reportItem> callreportOneMouth() {
+        String sql = "select count(*)as count, gender, plantype  FROM searchrecs\n" +
+                "where search_date between TRUNC(sysdate,'MONTH') and LAST_DAY(sysdate)\n" +
+                "group by gender,plantype";
+        List<reportItem> res = (List<reportItem>) jdbcTemplate.query(sql,new BeanPropertyRowMapper<reportItem>(reportItem.class));
+        return res;
     }
 }
